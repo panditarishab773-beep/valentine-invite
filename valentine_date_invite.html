@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Valentine Date Invite</title>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(135deg, #ff758c, #ff7eb3);
+    }
+
+    .container {
+        width: 90%;
+        max-width: 500px;
+        background: white;
+        border-radius: 16px;
+        padding: 30px;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .date {
+        font-size: 18px;
+        color: #ff4d6d;
+        margin-bottom: 15px;
+        font-weight: bold;
+    }
+
+    .slide-text {
+        font-size: 20px;
+        line-height: 1.5;
+        margin-bottom: 30px;
+        min-height: 120px;
+    }
+
+    button {
+        padding: 12px 22px;
+        border: none;
+        border-radius: 8px;
+        background: #ff4d6d;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    button:hover {
+        background: #e63956;
+    }
+
+    .fade {
+        animation: fade 0.4s ease;
+    }
+
+    @keyframes fade {
+        from {opacity: 0; transform: translateY(10px);} 
+        to {opacity: 1; transform: translateY(0);} 
+    }
+
+    .footer {
+        margin-top: 15px;
+        font-size: 13px;
+        color: #777;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <div class="date">14 February</div>
+    <div id="slide" class="slide-text fade"></div>
+    <button id="nextBtn">Next ➜</button>
+    <div class="footer">Tap next to continue</div>
+</div>
+
+<script>
+const slides = [
+    "Hey! I wanted to tell you something...",
+    "I really enjoy talking with you and getting to know you.",
+    "Our conversations have honestly become a nice part of my day.",
+    "So I thought I should be clear instead of hinting around...",
+    "I'd like to officially ask you out on a date.",
+    "Just to know each other better and see where things go, no pressure.",
+    "If you're up for it, maybe we can go out this Valentine's?",
+    "So... what do you say?"
+];
+
+let index = 0;
+const slideEl = document.getElementById("slide");
+const nextBtn = document.getElementById("nextBtn");
+
+function showSlide() {
+    slideEl.classList.remove("fade");
+    void slideEl.offsetWidth;
+    slideEl.classList.add("fade");
+    slideEl.textContent = slides[index];
+
+    if (index === slides.length - 1) {
+        nextBtn.textContent = "Done";
+    }
+}
+
+nextBtn.addEventListener("click", () => {
+    if (index < slides.length - 1) {
+        index++;
+        showSlide();
+    }
+});
+
+showSlide();
+</script>
+
+</body>
+</html>
