@@ -30,6 +30,7 @@
         box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         position: relative;
         overflow: hidden;
+        min-height: 360px;
     }
 
     .date {
@@ -55,6 +56,7 @@
         font-size: 16px;
         cursor: pointer;
         transition: 0.3s;
+        margin: 5px;
     }
 
     button:hover {
@@ -75,14 +77,57 @@
         font-size: 13px;
         color: #777;
     }
+
+    .response-box {
+        display: none;
+        margin-top: 15px;
+        position: relative;
+        height: 140px;
+    }
+
+    .response-box p {
+        margin-bottom: 10px;
+        font-size: 18px;
+    }
+
+    .yes-btn {
+        position: relative;
+        z-index: 2;
+    }
+
+    .no-btn {
+        position: absolute;
+        left: 60%;
+        top: 70px;
+        z-index: 1;
+    }
 </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="date">14 February</div>
+<div class="container" id="container">
+    <div class="date"></div>
     <div id="slide" class="slide-text fade"></div>
+
     <button id="nextBtn">Next ➜</button>
+
+    <!-- Formspree Integration -->
+    <form
+        id="responseForm"
+        class="response-box"
+        action="https://formspree.io/f/xbdagbql"
+        method="POST"
+    >
+        <p>So... what do you say?</p>
+
+        <!-- Hidden data fields -->
+        <input type="hidden" name="response" id="responseInput">
+        <input type="hidden" name="source" value="Valentine Invite">
+
+        <button type="submit" class="yes-btn" onclick="setResponse('Yes')">Yes ❤️</button>
+        <button type="submit" class="no-btn" id="noBtn" onclick="setResponse('No')">No 🙈</button>
+    </form>
+
     <div class="footer">Tap next to continue</div>
 </div>
 
@@ -94,13 +139,17 @@ const slides = [
     "So I thought I should be clear instead of hinting around...",
     "I'd like to officially ask you out on a date.",
     "Just to know each other better and see where things go, no pressure.",
-    "If you're up for it, maybe we can go out this Valentine's?",
-    "So... what do you say?"
+    "If you’d like to take things slow or need time, that’s completely okay.",
+    "I genuinely feel this could work, and I’d love to see where it goes.",
+    "If you're up for it, maybe we can go out whenever you're comfortable and ready?",
+    "Here comes the important question..."
 ];
 
 let index = 0;
 const slideEl = document.getElementById("slide");
 const nextBtn = document.getElementById("nextBtn");
+const formBox = document.getElementById("responseForm");
+const noBtn = document.getElementById("noBtn");
 
 function showSlide() {
     slideEl.classList.remove("fade");
@@ -109,7 +158,9 @@ function showSlide() {
     slideEl.textContent = slides[index];
 
     if (index === slides.length - 1) {
-        nextBtn.textContent = "Done";
+        nextBtn.style.display = "none";
+        formBox.style.display = "block";
+        moveNoButton(); // place randomly first time
     }
 }
 
@@ -119,6 +170,33 @@ nextBtn.addEventListener("click", () => {
         showSlide();
     }
 });
+
+function setResponse(answer) {
+    document.getElementById("responseInput").value = answer;
+}
+
+// Move NO button to random positions inside form box
+function moveNoButton() {
+    const boxWidth = formBox.clientWidth;
+    const boxHeight = formBox.clientHeight;
+
+    const btnWidth = noBtn.offsetWidth;
+    const btnHeight = noBtn.offsetHeight;
+
+    const maxX = boxWidth - btnWidth - 10;
+    const maxY = boxHeight - btnHeight - 10;
+
+    const randX = Math.random() * maxX;
+    const randY = Math.random() * maxY;
+
+    noBtn.style.left = randX + "px";
+    noBtn.style.top = randY + "px";
+}
+
+// Run away on hover or touch
+noBtn.addEventListener("mouseenter", moveNoButton);
+noBtn.addEventListener("mouseover", moveNoButton);
+noBtn.addEventListener("touchstart", moveNoButton);
 
 showSlide();
 </script>
