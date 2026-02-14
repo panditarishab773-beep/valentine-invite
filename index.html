@@ -82,7 +82,7 @@
         display: none;
         margin-top: 15px;
         position: relative;
-        height: 140px;
+        height: 120px;
     }
 
     .response-box p {
@@ -98,7 +98,7 @@
     .no-btn {
         position: absolute;
         left: 60%;
-        top: 70px;
+        top: 60px;
         z-index: 1;
     }
 </style>
@@ -120,7 +120,6 @@
     >
         <p>So... what do you say?</p>
 
-        <!-- Hidden data fields -->
         <input type="hidden" name="response" id="responseInput">
         <input type="hidden" name="source" value="Valentine Invite">
 
@@ -160,7 +159,7 @@ function showSlide() {
     if (index === slides.length - 1) {
         nextBtn.style.display = "none";
         formBox.style.display = "block";
-        moveNoButton(); // place randomly first time
+        moveNoButton();
     }
 }
 
@@ -175,7 +174,7 @@ function setResponse(answer) {
     document.getElementById("responseInput").value = answer;
 }
 
-// Move NO button to random positions inside form box
+// Randomly move NO button
 function moveNoButton() {
     const boxWidth = formBox.clientWidth;
     const boxHeight = formBox.clientHeight;
@@ -193,9 +192,7 @@ function moveNoButton() {
     noBtn.style.top = randY + "px";
 }
 
-// Run away on hover or touch
 noBtn.addEventListener("mouseenter", moveNoButton);
-noBtn.addEventListener("mouseover", moveNoButton);
 noBtn.addEventListener("touchstart", moveNoButton);
 
 showSlide();
